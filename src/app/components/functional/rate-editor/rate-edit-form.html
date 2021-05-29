@@ -1,0 +1,98 @@
+<h2 mat-dialog-title>Add hero</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="rateFormGroup">
+  <mat-horizontal-stepper linear #stepper>
+    <!-- -->
+    <mat-step [stepControl]="rateFormGroup.controls['rateNameCtrl']" errorMessage="Name is required.">
+
+        <ng-template matStepLabel>Tariff general information</ng-template>
+        <mat-form-field>
+          <mat-label>Tariff name</mat-label>
+          <input matInput formControlName="rateNameCtrl" placeholder="Tariff name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Tagline</mat-label>
+          <input matInput formControlName="taglineCtrl" placeholder="Tagline" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next Step</button>
+        </div>
+    </mat-step>
+    <!-- -->
+    <mat-step [hasError]="this.hasErrorInChips" errorMessage="Tags is required.">
+        <ng-template matStepLabel>Tags and price</ng-template>
+
+      <mat-form-field class="chip-powers-list">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip *ngFor="let tag of preparingRate.tags" [selectable]="selectable"
+                    [removable]="removable" (removed)="removeIntoChipList(tag)">
+            {{tag}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Add tags"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true"
+                 (matChipInputTokenEnd)="addToChipList($event)"
+                 [formControl]="chipsCtrl">
+        </mat-chip-list>
+      </mat-form-field>
+
+
+        <mat-form-field>
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="priceCtrl" placeholder="Price per month">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+    <!-- -->
+    <mat-step [editable]="isEditable" [hasError]="this.hasErrorInImages" errorMessage="Promo images is required.">
+      <ng-template matStepLabel>Promo images</ng-template>
+
+      <ngx-dropzone (change)="onSelectPhoto($event)">
+        <ngx-dropzone-label>Drop image</ngx-dropzone-label>
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of fileList" [file]="f"
+                                    [removable]="true" (removed)="onRemovePhoto(f)">
+        </ngx-dropzone-image-preview>
+      </ngx-dropzone>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <!-- -->
+    <mat-step [editable]="isEditable" [hasError]="this.hasErrorInDetails" errorMessage="Details is required.">
+      <ng-template matStepLabel>Details and promo information</ng-template>
+        <mat-form-field class="textarea-container">
+          <mat-label>Autosize textarea</mat-label>
+          <textarea matInput
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="30"
+                    formControlName="detailsCtrl"
+                    required
+          ></textarea>
+          <mat-error *ngIf='hasErrorInDetails'>Error! Minsize 30 symbols</mat-error>
+        </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <!-- -->
+  </mat-horizontal-stepper>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+
+
+  <div *ngIf="!editingHero; then thenBlock else elseBlock"></div>
+  <ng-template #thenBlock><button mat-button (click)="addHero()" [mat-dialog-close]="true" [disabled]="this.isCreateReady">Create</button></ng-template>
+  <ng-template #elseBlock><button mat-button (click)="editHero()" [mat-dialog-close]="true">Edit</button></ng-template>
+
+</mat-dialog-actions>

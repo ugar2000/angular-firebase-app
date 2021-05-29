@@ -1,0 +1,40 @@
+<ng-container>
+
+  <mat-toolbar class="header-bar">
+    <div *ngIf="authService.userData as user" class="user-container" (click)="sidenav.toggle()">
+      <img class="app-avatar" ngxLetterImageAvatar="{{(user.displayName) ? user.displayName : 'User'}}"
+           src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
+           alt="{{user.displayName}}">
+      <span>
+        {{(user.displayName) ? user.displayName : 'User'}}
+      </span>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="page-container">
+    <mat-sidenav #sidenav mode="side" class="user-sidenav">
+      <div *ngIf="authService.userData as user; else emptyUserBlock">
+        <hr>
+        <p>Email: <strong>{{user.email}}</strong></p>
+        <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
+        <hr>
+        <a *ngIf="this.router.url !== '/rate-list'; else createHeroButton" href="" mat-button routerLink="hero-list">Hero
+          page</a>
+        <ng-template #createHeroButton>
+          <app-create-rate></app-create-rate>
+        </ng-template>
+        <br>
+        <hr>
+        <a class="nav-link" mat-button (click)="authService.SignOut()">Log out</a>
+      </div>
+      <ng-template #emptyUserBlock>
+        <div>User not found</div>
+      </ng-template>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <mat-toolbar class="footer-bar">Footer</mat-toolbar>
+</ng-container>

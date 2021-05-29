@@ -1,0 +1,22 @@
+.hero-list-container {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 30px;
+  .hero-card {
+    max-width: 400px;
+  }
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+  }
+.swiper-wrapper {
+  align-items: center;
+}
+
+  .details-span {
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+
+}
