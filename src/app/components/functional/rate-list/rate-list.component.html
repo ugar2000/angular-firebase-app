@@ -22,7 +22,7 @@
       <mat-chip-list>
         <mat-chip *ngFor="let rate of rate.payload.doc.data().tags">{{rate}}</mat-chip>
       </mat-chip-list>
-      <p>{{rate.payload.doc.data().price}}</p>
+      <p>{{rate.payload.doc.data().price}} ₴/мес.</p>
       <span class="details-span">{{rate.payload.doc.data().details}}</span>
     </mat-card-content>
     <mat-card-actions>

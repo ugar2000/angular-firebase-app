@@ -1,22 +1,39 @@
-.app-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-
-.user-container {
-  display: flex;
-  align-items: center;
-  width: 18%;
-  justify-content: space-between;
-}
-
 .header-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 2;
+
+  .app-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  .user-container {
+    display: flex;
+    align-items: center;
+    width: 18%;
+    justify-content: space-between;
+  }
+}
+.page-container {
+  padding-top: 30px;
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+
+  .user-sidenav {
+    padding-top: 30px;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+  }
 }
 
 .footer-bar {
@@ -26,20 +43,6 @@
   right: 0;
 }
 
-.page-container {
-  padding-top: 30px;
-  position: absolute;
-  top: 60px;
-  bottom: 60px;
-  left: 0;
-  right: 0;
-}
 
-.user-sidenav {
-  padding-top: 30px;
-  overflow-x: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-}
+
+
