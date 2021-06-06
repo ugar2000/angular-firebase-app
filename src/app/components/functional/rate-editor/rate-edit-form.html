@@ -1,33 +1,33 @@
-<h2 mat-dialog-title>Tariff</h2>
+<h2 mat-dialog-title>Позиция меню</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="rateFormGroup">
   <mat-horizontal-stepper linear #stepper>
     <!-- -->
     <mat-step [stepControl]="rateFormGroup.controls['rateNameCtrl']" errorMessage="Name is required.">
 
-        <ng-template matStepLabel>Tariff general information</ng-template>
+        <ng-template matStepLabel>Название позиции и короткая надпись</ng-template>
         <mat-form-field>
-          <mat-label>Tariff name</mat-label>
-          <input matInput formControlName="rateNameCtrl" placeholder="Tariff name">
+          <mat-label>Название позиции</mat-label>
+          <input matInput formControlName="rateNameCtrl" placeholder="Кайзеровская булка">
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Tagline</mat-label>
-          <input matInput formControlName="taglineCtrl" placeholder="Tagline" required>
+          <mat-label>Короткое описание</mat-label>
+          <input matInput formControlName="taglineCtrl" placeholder="Очень вкусная булка..." required>
         </mat-form-field>
         <div>
-          <button mat-button matStepperNext>Next Step</button>
+          <button mat-button matStepperNext>Следующий шаг</button>
         </div>
     </mat-step>
     <!-- -->
-    <mat-step [hasError]="this.hasErrorInChips" errorMessage="Tags is required.">
-        <ng-template matStepLabel>Tags and price</ng-template>
+    <mat-step [hasError]="this.hasErrorInChips" errorMessage="Тэги обязательны">
+        <ng-template matStepLabel>Тэги и цена</ng-template>
 
       <mat-form-field class="chip-powers-list">
         <mat-chip-list #chipList aria-label="Fruit selection">
           <mat-chip *ngFor="let tag of preparingRate.tags" [selectable]="selectable"
                     [removable]="removable" (removed)="removeIntoChipList(tag)">
             {{tag}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            <mat-icon matChipRemove *ngIf="removable">отмена</mat-icon>
           </mat-chip>
           <input placeholder="Add tags"
                  [matChipInputFor]="chipList"
@@ -37,20 +37,18 @@
                  [formControl]="chipsCtrl">
         </mat-chip-list>
       </mat-form-field>
-
-
         <mat-form-field>
-          <mat-label>Price</mat-label>
-          <input matInput type="number" formControlName="priceCtrl" placeholder="Price per month">
+          <mat-label>Цена</mat-label>
+          <input matInput type="number" formControlName="priceCtrl" placeholder="300...">
         </mat-form-field>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Следующий шаг</button>
+          <button mat-button matStepperNext>Предыдущий шаг</button>
         </div>
     </mat-step>
     <!-- -->
-    <mat-step [editable]="isEditable" [hasError]="this.hasErrorInImages" errorMessage="Promo images is required.">
-      <ng-template matStepLabel>Promo images</ng-template>
+    <mat-step [editable]="isEditable" [hasError]="this.hasErrorInImages" errorMessage="Фото обязательны">
+      <ng-template matStepLabel>Фото обязательны</ng-template>
 
       <ngx-dropzone (change)="onSelectPhoto($event)">
         <ngx-dropzone-label>Drop image</ngx-dropzone-label>

@@ -30,6 +30,7 @@ import {SignUpComponent} from './components/login/sign-up/sign-up.component';
 import {ForgotPasswordComponent} from './components/login/forgot-password/forgot-password.component';
 import {VerifyEmailComponent} from './components/login/verify-email/verify-email.component';
 import {FileInputConfig, NGX_MAT_FILE_INPUT_CONFIG} from 'ngx-material-file-input';
+import { StepFormBuiderComponent } from './components/step-form-buider/step-form-buider.component';
 
 const routes: Routes = [
 
@@ -69,6 +70,7 @@ const config: FileInputConfig = {
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
+    StepFormBuiderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,34 @@
+<form action="">
+  <mat-horizontal-stepper #stepper linear>
+    <mat-step *ngFor="let step of formObject.steps">
+      <ng-template matStepLabel>{{step.stepName}}</ng-template>
+      <mat-form-field *ngFor="let field of step.fields">
+        <ng-template [ngIf]="field.fieldType === 'text-input'">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [formControlName]="field.formControlName" [placeholder]="field.placeholder">
+        </ng-template>
+        <ng-template [ngIf]="field.fieldType === 'chip-list'">
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let tag of preparingRate.tags" [selectable]="selectable"
+                      [removable]="removable" (removed)="removeIntoChipList(tag)">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">отмена</mat-icon>
+            </mat-chip>
+            <input placeholder="Add tags"
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="true"
+                   (matChipInputTokenEnd)="addToChipList($event)"
+                   [formControl]="chipsCtrl">
+          </mat-chip-list>
+        </ng-template>
+      </mat-form-field>
+      <button mat-button (click)="stepBack()" type="button"
+              [disabled]="stepper.selectedIndex === 0">Назад</button>
+      <button mat-button (click)="stepNext()" type="button"
+              [disabled]="stepper.selectedIndex === stepper._steps.length-1">Вперед</button>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+
+</form>

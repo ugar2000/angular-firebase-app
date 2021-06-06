@@ -38,7 +38,7 @@ export class RateListComponent implements OnInit {
   }
 
   getAllRates(): void {
-    this.crudService.getDocuments('rates')
+    this.crudService.getDocuments('menu')
       .subscribe(res => {
         this.ratesList = res;
       });
@@ -55,7 +55,7 @@ export class RateListComponent implements OnInit {
   }
 
   deleteCurrentRate(rate): void {
-    this.crudService.deleteDocument(rate, 'rates');
+    this.crudService.deleteDocument(rate, 'menu');
   }
 
 }

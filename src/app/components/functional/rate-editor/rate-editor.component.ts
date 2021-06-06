@@ -151,11 +151,11 @@ export class RateEditCreateFormDialogComponent implements OnInit, OnDestroy {
   }
 
   addHero(): void {
-    this.crudService.createDocument(this.preparingRate, 'rates');
+    this.crudService.createDocument(this.preparingRate, 'menu');
   }
 
   editHero(): void {
-    this.crudService.updateDocument(this.editingHero.payload.doc.id, this.preparingRate, 'rates');
+    this.crudService.updateDocument(this.editingHero.payload.doc.id, this.preparingRate, 'menu');
   }
 
   prepareWindow(): void {
