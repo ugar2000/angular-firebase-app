@@ -1,6 +1,8 @@
 
 <div class="hero-list-container">
 
+  <app-step-form-buider [formObject]="testFormObj"></app-step-form-buider>
+
   <mat-card *ngFor="let rate of ratesList" class="hero-card">
     <mat-card-header>
       <mat-card-title>{{rate.payload.doc.data().rateName}}</mat-card-title>

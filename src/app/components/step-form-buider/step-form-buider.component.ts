@@ -1,8 +1,11 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormObj} from '../../interfaces/form-obj';
+import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import { FormObj} from '../../interfaces/form-obj';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
-import {FormBuilder, FormControl} from '@angular/forms';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import {HelperService} from '../../service/helper.service';
 
 @Component({
   selector: 'app-step-form-buider',
@@ -20,17 +23,25 @@ export class StepFormBuiderComponent implements OnInit {
   @ViewChild('stepper') private formStepper: MatStepper;
   @Input() formObject: FormObj;
   preparingObj: object = {};
+  globalFormGroup: FormGroup = new FormGroup({});
+  imagesArrays: object = {};
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor() {
-    const formOnj = {};
-    this.formObject.steps.forEach(step => {
-      step.fields.forEach(field => {
-        this.preparingObj[field.name] = field.preparingValue;
-      });
-    });
+  constructor(private cdr: ChangeDetectorRef, private helperService: HelperService) {
   }
 
   ngOnInit(): void {
+    this.formObject.steps.forEach(step => {
+      const stepFormGroup: FormGroup = new FormGroup({});
+
+      step.fields.forEach(field => {
+        this.preparingObj[field.name] = field.preparingValue;
+        stepFormGroup.addControl(field.name, new FormControl(field.preparingValue, this.collectingValidators(field)));
+      });
+      this.globalFormGroup.addControl(step.stepName, stepFormGroup);
+    });
+    this.cdr.detectChanges();
+    console.log(this.globalFormGroup);
   }
 
   stepBack(): void {
@@ -40,4 +51,92 @@ export class StepFormBuiderComponent implements OnInit {
   stepNext(): void {
     this.formStepper.next();
   }
+
+  addToChipList(event: MatChipInputEvent, listName: string, stepName: string, sizeOptions: { min: number, max: number }): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.preparingObj[listName].push(value.trim());
+      this.chipListErrorCheck(listName, stepName, sizeOptions.min, sizeOptions.max);
+    }
+
+    if (input) {
+      input.value = '';
+    }
+
+  }
+
+  removeIntoChipList(item: string, listName: string, stepName: string, sizeOptions: { min: number, max: number }): void {
+    const index = this.preparingObj[listName].indexOf(item);
+    if (index >= 0) {
+      this.preparingObj[listName].splice(index, 1);
+      this.chipListErrorCheck(listName, stepName, sizeOptions.min, sizeOptions.max);
+    }
+  }
+
+  chipListErrorCheck(listName, stepName, min, max): void {
+    if (this.preparingObj[listName].length > max || this.preparingObj[listName].length < min) {
+      (<FormGroup> this.globalFormGroup.controls[stepName]).controls[listName].setErrors({required: true});
+    } else {
+      (<FormGroup> this.globalFormGroup.controls[stepName]).controls[listName].setErrors(null);
+    }
+  }
+
+  onSelectPhoto(event: any, fieldName: string): void {
+    event.addedFiles.forEach(image => {
+      this.imagesArrays[fieldName].push(image);
+      this.helperService.fileToBase64(image).then(elem => {
+
+        this.preparingObj[fieldName].push({
+          base64: elem,
+          name: image.name
+        });
+
+      });
+    });
+  }
+
+  onRemovePhoto(event: File, fieldName: string): void {
+    let currentIndex = this.imagesArrays[fieldName].indexOf(event);
+    this.imagesArrays[fieldName].splice(currentIndex, 1);
+    currentIndex = this.preparingObj[fieldName].indexOf(this.helperService.filterIt(this.preparingObj[fieldName], event.name)[0]);
+    this.preparingObj[fieldName].splice(currentIndex, 1);
+
+  }
+
+  collectingValidators(fieldObj: any): Array<ValidatorFn> {
+    const valArray: Array<ValidatorFn> = [];
+    fieldObj.validators.forEach(elem => {
+        switch (elem) {
+          case 'email':
+            valArray.push(Validators.email);
+            break;
+          case 'required':
+            valArray.push(Validators.required);
+            break;
+          case 'minLength':
+            valArray.push(Validators.minLength(fieldObj.minSymbolsQuality));
+            break;
+          case 'maxLength':
+            valArray.push(Validators.maxLength(fieldObj.maxSymbolsQuality));
+            break;
+          case 'mobile':
+            valArray.push(Validators.pattern('[- +()0-9]+'));
+            break;
+          case 'price':
+            valArray.push(Validators.pattern('\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})'));
+            break;
+          case 'numeric':
+            valArray.push(Validators.pattern('^[0-9]*$'));
+            break;
+          default:
+            break;
+        }
+      }
+    );
+    console.log(fieldObj.name, valArray);
+    return valArray;
+  }
+
 }

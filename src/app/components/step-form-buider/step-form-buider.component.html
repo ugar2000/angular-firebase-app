@@ -1,32 +1,65 @@
-<form action="">
+<form action="" [formGroup]="globalFormGroup">
   <mat-horizontal-stepper #stepper linear>
-    <mat-step *ngFor="let step of formObject.steps">
+    <mat-step *ngFor="let step of formObject.steps"
+              [stepControl]="globalFormGroup.controls[step.stepName]"
+              formGroupName="{{step.stepName}}"
+              errorMessage="Заполните обязательные поля.">
       <ng-template matStepLabel>{{step.stepName}}</ng-template>
       <mat-form-field *ngFor="let field of step.fields">
         <ng-template [ngIf]="field.fieldType === 'text-input'">
           <mat-label>{{field.label}}</mat-label>
-          <input matInput [formControlName]="field.formControlName" [placeholder]="field.placeholder">
+          <input matInput
+                 [formControlName]="field.name"
+                 [placeholder]="field.placeholder"
+                 [(ngModel)]="preparingObj[field.name]">
+          <mat-error *ngIf="!!globalFormGroup.controls[step.stepName].controls[field.name].invalid">Обязательное поле!</mat-error>
         </ng-template>
         <ng-template [ngIf]="field.fieldType === 'chip-list'">
           <mat-chip-list #chipList aria-label="Fruit selection">
-            <mat-chip *ngFor="let tag of preparingRate.tags" [selectable]="selectable"
-                      [removable]="removable" (removed)="removeIntoChipList(tag)">
+            <mat-chip *ngFor="let tag of preparingObj[field.name]" [selectable]="true"
+                      [removable]="true"
+                      (removed)="removeIntoChipList(tag, field.name, step.stepName, {min: field.minTagsQuantity, max: field.maxTagsQuantity})">
               {{tag}}
-              <mat-icon matChipRemove *ngIf="removable">отмена</mat-icon>
+              <mat-icon matChipRemove>Отмена</mat-icon>
             </mat-chip>
-            <input placeholder="Add tags"
+            <input [placeholder]="field.placeholder"
                    [matChipInputFor]="chipList"
                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                    [matChipInputAddOnBlur]="true"
-                   (matChipInputTokenEnd)="addToChipList($event)"
-                   [formControl]="chipsCtrl">
+                   (matChipInputTokenEnd)="addToChipList($event, field.name, step.stepName, {min: field.minTagsQuantity, max: field.maxTagsQuantity})">
           </mat-chip-list>
+          <mat-error *ngIf="preparingObj[field.name].length < field.minTagsQuantity">Нужно больше тэгов!</mat-error>
+          <mat-error *ngIf="preparingObj[field.name].length > field.maxTagsQuantity">Нужно меньше тэгов.</mat-error>
+          <mat-hint>От {{field.minTagsQuantity}} до {{field.maxTagsQuantity}} тэгов</mat-hint>
+        </ng-template>
+        <ng-template [ngIf]="field.fieldType === 'textarea'" >
+          <mat-label>{{field.label}}</mat-label>
+          <textarea matInput
+                    cdkTextareaAutosize
+                    placeholder="{{field.placeholder}}"
+                    cdkAutosizeMinRows="{{field.minRowsQuality}}"
+                    cdkAutosizeMaxRows="{{field.maxRowsQuality}}"
+                    formControlName="{{field.name}}"
+                    [(ngModel)]="preparingObj[field.name]"
+          ></textarea>
+          <mat-error *ngIf="globalFormGroup.controls[step.stepName].controls[field.name].hasError('minlength')">Минимум {{field.minSymbolsQuality}} символов</mat-error>
+          <mat-error *ngIf="globalFormGroup.controls[step.stepName].controls[field.name].hasError('maxlength')">Максимум {{field.maxSymbolsQuality}} символов</mat-error>
+          <mat-error *ngIf="globalFormGroup.controls[step.stepName].controls[field.name].hasError('required')">Поле обязательное</mat-error>
+        </ng-template>
+        <ng-template [ngIf]="field.fieldType === 'images'">
+          <ngx-dropzone (change)="onSelectPhoto($event, field.name)">
+            <ngx-dropzone-label>{{field.label}}</ngx-dropzone-label>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesArrays[field.name]" [file]="f"
+                                        [removable]="true" (removed)="onRemovePhoto(f, field.name)">
+            </ngx-dropzone-image-preview>
+          </ngx-dropzone>
         </ng-template>
       </mat-form-field>
       <button mat-button (click)="stepBack()" type="button"
               [disabled]="stepper.selectedIndex === 0">Назад</button>
       <button mat-button (click)="stepNext()" type="button"
-              [disabled]="stepper.selectedIndex === stepper._steps.length-1">Вперед</button>
+              *ngIf="!!stepper._steps"
+              [disabled]="stepper.selectedIndex === stepper._steps.length - 1">Вперед</button>
     </mat-step>
   </mat-horizontal-stepper>
 
