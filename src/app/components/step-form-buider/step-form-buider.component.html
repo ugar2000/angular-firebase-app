@@ -53,6 +53,7 @@
                                         [removable]="true" (removed)="onRemovePhoto(f, field.name)">
             </ngx-dropzone-image-preview>
           </ngx-dropzone>
+          <input matInput formControlName="{{field.name}}" type="image">
         </ng-template>
       </mat-form-field>
       <button mat-button (click)="stepBack()" type="button"

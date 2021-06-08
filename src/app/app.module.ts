@@ -8,7 +8,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Routes, RouterModule} from '@angular/router';
 import {AppMaterialModule} from './app-material/app-material.module';
-
+import { ErrorStateMatcher } from '@angular/material/core';
+import { TouchedErrorStateMatcher} from './mather/touch-error-state.matcher';
 // FireBase
 import {environment} from 'src/environments/environment';
 import {AngularFireModule} from '@angular/fire';
@@ -87,7 +88,9 @@ const config: FileInputConfig = {
   providers: [CrudService, HelperService, AuthService, AuthGuard,
     {provide: BUCKET, useValue: 'angular-test-983c4.appspot.com'},
     {provide: SWIPER_CONFIG, useValue: DEFAULT_SWIPER_CONFIG},
-    {provide: NGX_MAT_FILE_INPUT_CONFIG, useValue: config}],
+    {provide: NGX_MAT_FILE_INPUT_CONFIG, useValue: config},
+    {provide: ErrorStateMatcher, useClass: TouchedErrorStateMatcher}
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
