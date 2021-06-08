@@ -28,16 +28,16 @@ export class RateListComponent implements OnInit {
         placeholder: 'test',
         validators: ['required']
       },
-      {
-        name: 'testChip',
-        label: 'testChip',
-        placeholder: 'testChip',
-        fieldType: 'chip-list',
-        preparingValue: [],
-        minTagsQuantity: 4,
-        maxTagsQuantity: 10,
-        validators: ['required']
-      },
+        {
+          name: 'testChip',
+          label: 'testChip',
+          placeholder: 'testChip',
+          fieldType: 'chip-list',
+          preparingValue: [],
+          minTagsQuantity: 4,
+          maxTagsQuantity: 10,
+          validators: ['required']
+        },
         {
           name: 'testArea',
           label: 'testArea',
@@ -48,7 +48,17 @@ export class RateListComponent implements OnInit {
           minRowsQuality: 1,
           maxRowsQuality: 100,
           validators: ['required', 'minLength', 'maxLength']
-        }]
+        },
+        {
+          name: 'testPhoto',
+          label: 'testPhoto',
+          placeholder: 'testPhoto',
+          fieldType: 'images',
+          validators: ['required'],
+          minImagesQuality: 1,
+          maxImagesQuality: 5
+        }
+        ]
     },
       {
         stepName: 'testStep2', fields: [{

@@ -28,7 +28,7 @@ export interface  Textarea extends Field{
 export interface ImagesField extends Field {
   minImagesQuality: number;
   maxImagesQuality: number;
-  preparingValue: Array<{ base64: string, name: string }>;
+  preparingValue?: Array<{ base64: string, name: string }>;
 }
 
 export interface FormObj {
