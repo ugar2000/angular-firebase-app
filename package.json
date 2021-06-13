@@ -1,13 +1,11 @@
 {
-  "name": "Rates_observer",
-  "version": "0.0.1",
+  "name": "bakery-app",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -28,7 +26,6 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@ngrx/store": "^10.0.1",
-    "angular-material-fileupload": "^3.0.2",
     "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",
     "ngx-letter-image-avatar": "^0.1.6",
