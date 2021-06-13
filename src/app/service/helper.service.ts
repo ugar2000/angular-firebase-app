@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {FileInput} from 'ngx-material-file-input';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,12 @@ import {Injectable} from '@angular/core';
 export class HelperService {
 
   constructor() {
+  }
+
+  public indexOfInFileInput(fileInput: FileInput, findFile: File): number {
+    return fileInput.files.findIndex((elem) => {
+      return elem.name === findFile.name;
+    });
   }
 
   public fileToBase64(file: File): Promise<any> {
@@ -33,7 +40,7 @@ export class HelperService {
   public dataURLtoFile(photoElement: { name: string, base64: string }): File {
     const arr = photoElement.base64.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
-    const  bstr = atob(arr[1]);
+    const bstr = atob(arr[1]);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
 
@@ -45,8 +52,8 @@ export class HelperService {
   }
 
   public filterIt(arr: Array<any>, searchKey: any): {} {
-    return arr.filter(function(obj) {
-      return Object.keys(obj).some(function(key) {
+    return arr.filter((obj) => {
+      return Object.keys(obj).some((key) => {
         return obj[key].includes(searchKey);
       });
     });
