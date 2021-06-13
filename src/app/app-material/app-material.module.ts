@@ -15,7 +15,6 @@ import { NgxLetterImageAvatarModule } from 'ngx-letter-image-avatar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MaterialFileInputModule} from 'ngx-material-file-input';
 import {MatSelectModule} from '@angular/material/select';
-import { MatFileUploadModule } from 'angular-material-fileupload';
 
 @NgModule({
   declarations: [],
@@ -34,8 +33,7 @@ import { MatFileUploadModule } from 'angular-material-fileupload';
     NgxLetterImageAvatarModule,
     MatSidenavModule,
     MaterialFileInputModule,
-    MatSelectModule,
-    MatFileUploadModule
+    MatSelectModule
   ]
 })
 export class AppMaterialModule { }

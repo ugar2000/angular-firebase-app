@@ -51,9 +51,10 @@
                               formControlName="{{field.name}}"
                               placeholder="{{field.placeholder}}"
                               accept="image/*"
-                              [(ngModel)]="imagesArrays[field.name]"></ngx-mat-file-input>
+                              [(ngModel)]="imagesArrays[field.name]"
+                              (change)="pushFile(field.name, step.stepName)"></ngx-mat-file-input>
           <mat-icon matSuffix>folder</mat-icon>
-          <div class="image-list-container" *ngIf="imagesArrays"><app-image (base64Ready)="push($event)" *ngFor="let image of imagesArrays[field.name]" [image]="image"></app-image></div>
+          <div class="image-list-container" *ngIf="imagesArrays"><img src="" alt=""></div>
         </ng-template>
       </mat-form-field>
 

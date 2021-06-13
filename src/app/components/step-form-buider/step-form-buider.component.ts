@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import { FormObj} from '../../interfaces/form-obj';
+import {FormObj} from '../../interfaces/form-obj';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
+import {MatChipInputEvent} from '@angular/material/chips';
 import {HelperService} from '../../service/helper.service';
 import {FileInput} from 'ngx-material-file-input';
 
@@ -84,8 +84,14 @@ export class StepFormBuiderComponent implements OnInit {
     }
   }
 
-  pushFile() {
-
+  pushFile(fieldName, stepName): any {
+    console.log(this.imagesArrays[fieldName].files);
+    this.preparingObj[fieldName] = [];
+    this.imagesArrays[fieldName].files.forEach((elem: File) => {
+      this.helperService.fileToBase64(elem).then(base64 => {
+        this.preparingObj[fieldName].push(base64);
+      });
+    });
   }
 
   collectingValidators(fieldObj: any): Array<ValidatorFn> {

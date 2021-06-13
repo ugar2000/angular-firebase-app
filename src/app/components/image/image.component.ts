@@ -1,6 +1,5 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HelperService} from '../../service/helper.service';
-import {EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-image',
@@ -9,7 +8,6 @@ import {EventEmitter} from '@angular/core';
 })
 export class ImageComponent implements OnInit {
   @Input() image: File;
-  @Output() base64Ready = new EventEmitter<string>();
 
   base64Image = '';
 
@@ -20,7 +18,6 @@ export class ImageComponent implements OnInit {
     this.helper.fileToBase64(this.image).then(base64 => {
       console.log(base64);
       this.base64Image = base64;
-      this.base64Ready.emit(base64);
     });
   }
 }
