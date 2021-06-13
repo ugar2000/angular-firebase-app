@@ -28,13 +28,15 @@ export interface  Textarea extends Field{
 export interface ImagesField extends Field {
   minImagesQuality: number;
   maxImagesQuality: number;
-  preparingValue?: Array<{ base64: string, name: string }>;
+  multiple: boolean;
+  preparingValue?: Array<{name: string, src: string}>;
 }
 
 export interface FormObj {
   name: string;
   steps: Array<{
     stepName: string;
+    stepLabel: string;
     fields: Array<StringField | ChipListField | Textarea | ImagesField>;
   }>;
 }

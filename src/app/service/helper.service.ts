@@ -37,8 +37,8 @@ export class HelperService {
     });
   }
 
-  public dataURLtoFile(photoElement: { name: string, base64: string }): File {
-    const arr = photoElement.base64.split(',');
+  public dataURLtoFile(name: string, base64: string): File {
+    const arr = base64.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
     let n = bstr.length;
@@ -48,7 +48,7 @@ export class HelperService {
       u8arr[n] = bstr.charCodeAt(n);
     }
 
-    return new File([u8arr], photoElement.name, {type: mime});
+    return new File([u8arr], name, {type: mime});
   }
 
   public filterIt(arr: Array<any>, searchKey: any): {} {

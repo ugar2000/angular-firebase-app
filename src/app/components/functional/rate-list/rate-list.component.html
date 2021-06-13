@@ -1,12 +1,9 @@
-
 <div class="hero-list-container">
-
-  <app-step-form-buider [formObject]="testFormObj"></app-step-form-buider>
 
   <mat-card *ngFor="let rate of ratesList" class="hero-card">
     <mat-card-header>
-      <mat-card-title>{{rate.payload.doc.data().rateName}}</mat-card-title>
-      <mat-card-subtitle>{{rate.payload.doc.data().rateTagline}}</mat-card-subtitle>
+      <mat-card-title>{{rate.payload.doc.data().name}}</mat-card-title>
+      <mat-card-subtitle>{{rate.payload.doc.data().detailName}}</mat-card-subtitle>
     </mat-card-header>
 
     <swiper
@@ -15,17 +12,18 @@
       [config]="config"
       [disabled]="false"
     >
-      <div *ngFor="let photo of rate.payload.doc.data().photos" class="swiper-slide">
-        <img src="{{photo.base64}}">
+      <div *ngFor="let image of rate.payload.doc.data().image" class="swiper-slide">
+        <img src="{{image.src}}">
       </div>
     </swiper>
 
     <mat-card-content>
       <mat-chip-list>
-        <mat-chip *ngFor="let rate of rate.payload.doc.data().tags">{{rate}}</mat-chip>
+        <mat-chip *ngFor="let ingredient of rate.payload.doc.data().ingredients">{{ingredient}}</mat-chip>
       </mat-chip-list>
-      <p>{{rate.payload.doc.data().price}} ₴/мес.</p>
-      <span class="details-span">{{rate.payload.doc.data().details}}</span>
+      <span class="details-span">{{rate.payload.doc.data().features}}</span>
+      <p>{{rate.payload.doc.data().price}} ₴</p>
+      <p>Сделаем за {{rate.payload.doc.data().time}} часов</p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="openEditDialog(rate)">Edit</button>

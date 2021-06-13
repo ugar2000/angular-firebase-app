@@ -4,7 +4,7 @@
               [stepControl]="globalFormGroup.controls[step.stepName]"
               formGroupName="{{step.stepName}}"
               errorMessage="Заполните обязательные поля.">
-      <ng-template matStepLabel>{{step.stepName}}</ng-template>
+      <ng-template matStepLabel>{{step.stepLabel}}</ng-template>
       <mat-form-field *ngFor="let field of step.fields">
         <ng-template [ngIf]="field.fieldType === 'text-input'">
           <mat-label>{{field.label}}</mat-label>
@@ -47,17 +47,17 @@
           <mat-error *ngIf="globalFormGroup.controls[step.stepName].controls[field.name].hasError('required')">Поле обязательное</mat-error>
         </ng-template>
         <ng-template [ngIf]="field.fieldType === 'images'">
-          <ngx-mat-file-input [multiple]="true"
+          <ngx-mat-file-input [multiple]="field.multiple"
                               formControlName="{{field.name}}"
                               placeholder="{{field.placeholder}}"
                               accept="image/*"
                               [(ngModel)]="imagesArrays[field.name]"
-                              (change)="pushFile(field.name, step.stepName)"></ngx-mat-file-input>
+                              (change)="pushFile(field.name)"></ngx-mat-file-input>
           <mat-icon matSuffix>folder</mat-icon>
-          <div class="image-list-container" *ngIf="imagesArrays"><img src="" alt=""></div>
+          <div class="image-list-container" *ngIf="imagesArrays"><img *ngFor="let item of preparingObj[field.name]" src="{{item.src}}" alt="{{item.name}}"></div>
         </ng-template>
       </mat-form-field>
-
+      <button mat-button (click)="finishForm()" [disabled]="globalFormGroup.invalid">Завершить</button>
       <button mat-button (click)="stepBack()" type="button"
               [disabled]="stepper.selectedIndex === 0">Назад</button>
       <button mat-button (click)="stepNext()" type="button"

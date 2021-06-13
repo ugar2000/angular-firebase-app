@@ -3,6 +3,6 @@ export interface Rate {
   rateTagline: string;
   tags: Array<string>;
   price: number;
-  photos: Array<{ base64: string, name: string }>;
+  photos: Array<{name: string, src: string}>;
   details: string;
 }

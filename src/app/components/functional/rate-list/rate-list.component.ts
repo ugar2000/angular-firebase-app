@@ -17,61 +17,6 @@ export interface HeroInter extends Rate {
   styleUrls: ['./rate-list.component.scss']
 })
 export class RateListComponent implements OnInit {
-
-  testFormObj: FormObj = {
-    name: 'test', steps: [{
-      stepName: 'testStep', fields: [{
-        name: 'testF',
-        label: 'testF',
-        type: 'text',
-        fieldType: 'text-input',
-        placeholder: 'test',
-        validators: ['required']
-      },
-        {
-          name: 'testChip',
-          label: 'testChip',
-          placeholder: 'testChip',
-          fieldType: 'chip-list',
-          preparingValue: [],
-          minTagsQuantity: 4,
-          maxTagsQuantity: 10,
-          validators: ['required']
-        },
-        {
-          name: 'testArea',
-          label: 'testArea',
-          placeholder: 'gergerfdsvreg',
-          fieldType: 'textarea',
-          minSymbolsQuality: 30,
-          maxSymbolsQuality: 3000,
-          minRowsQuality: 1,
-          maxRowsQuality: 100,
-          validators: ['required', 'minLength', 'maxLength']
-        },
-        {
-          name: 'testPhoto',
-          label: 'testPhoto',
-          placeholder: 'testPhoto',
-          fieldType: 'images',
-          validators: ['required'],
-          minImagesQuality: 1,
-          maxImagesQuality: 5
-        }
-        ]
-    },
-      {
-        stepName: 'testStep2', fields: [{
-          name: 'testF2',
-          label: 'testF2',
-          type: 'text',
-          fieldType: 'text-input',
-          placeholder: 'test2',
-          validators: ['required']
-        }]
-      }]
-  };
-
   ratesList: Array<any> = [];
 
   public config: SwiperOptions = {

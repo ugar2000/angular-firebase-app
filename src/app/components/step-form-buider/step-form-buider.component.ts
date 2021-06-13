@@ -1,12 +1,11 @@
-import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormObj} from '../../interfaces/form-obj';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ChipListField, FormObj, ImagesField} from '../../interfaces/form-obj';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {HelperService} from '../../service/helper.service';
-import {FileInput} from 'ngx-material-file-input';
 
 @Component({
   selector: 'app-step-form-buider',
@@ -23,6 +22,7 @@ export class StepFormBuiderComponent implements OnInit {
 
   @ViewChild('stepper') private formStepper: MatStepper;
   @Input() formObject: FormObj;
+  @Output() finishEvent: EventEmitter<object> = new EventEmitter<object>();
   preparingObj: object = {};
   globalFormGroup: FormGroup = new FormGroup({});
   imagesArrays: object = {};
@@ -32,17 +32,22 @@ export class StepFormBuiderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('start');
     this.formObject.steps.forEach(step => {
       const stepFormGroup: FormGroup = new FormGroup({});
-
       step.fields.forEach(field => {
         this.preparingObj[field.name] = field.preparingValue;
-        stepFormGroup.addControl(field.name, new FormControl(field.preparingValue, this.collectingValidators(field)));
+        if (field.fieldType === 'images') {
+          const defaultValue = (<ImagesField> field).preparingValue.map(item => this.helperService.dataURLtoFile(item.name, item.src));
+          stepFormGroup.addControl(field.name, new FormControl(defaultValue, this.collectingValidators(field)));
+        } else {
+          stepFormGroup.addControl(field.name, new FormControl(field.preparingValue, this.collectingValidators(field)));
+        }
       });
       this.globalFormGroup.addControl(step.stepName, stepFormGroup);
     });
+    console.log(this.preparingObj);
     this.cdr.detectChanges();
-    console.log(this.globalFormGroup);
   }
 
   stepBack(): void {
@@ -84,14 +89,17 @@ export class StepFormBuiderComponent implements OnInit {
     }
   }
 
-  pushFile(fieldName, stepName): any {
-    console.log(this.imagesArrays[fieldName].files);
+  pushFile(fieldName): any {
     this.preparingObj[fieldName] = [];
     this.imagesArrays[fieldName].files.forEach((elem: File) => {
       this.helperService.fileToBase64(elem).then(base64 => {
-        this.preparingObj[fieldName].push(base64);
+        this.preparingObj[fieldName].push({name: elem.name, src: base64});
       });
     });
+  }
+
+  finishForm(): void {
+    this.finishEvent.emit(this.preparingObj);
   }
 
   collectingValidators(fieldObj: any): Array<ValidatorFn> {
@@ -124,7 +132,6 @@ export class StepFormBuiderComponent implements OnInit {
         }
       }
     );
-    console.log(fieldObj.name, valArray);
     return valArray;
   }
 
