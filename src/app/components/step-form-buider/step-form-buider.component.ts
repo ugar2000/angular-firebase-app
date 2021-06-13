@@ -6,6 +6,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import {HelperService} from '../../service/helper.service';
+import {FileInput} from 'ngx-material-file-input';
 
 @Component({
   selector: 'app-step-form-buider',
@@ -75,7 +76,7 @@ export class StepFormBuiderComponent implements OnInit {
     }
   }
 
-  chipListErrorCheck(listName, stepName, min, max): void {
+  chipListErrorCheck(listName: string, stepName: string, min: number, max: number): void {
     if (this.preparingObj[listName].length > max || this.preparingObj[listName].length < min) {
       (<FormGroup> this.globalFormGroup.controls[stepName]).controls[listName].setErrors({required: true});
     } else {
@@ -83,25 +84,7 @@ export class StepFormBuiderComponent implements OnInit {
     }
   }
 
-  onSelectPhoto(event: any, fieldName: string): void {
-    event.addedFiles.forEach(image => {
-      this.imagesArrays[fieldName].push(image);
-      this.helperService.fileToBase64(image).then(elem => {
-
-        this.preparingObj[fieldName].push({
-          base64: elem,
-          name: image.name
-        });
-
-      });
-    });
-  }
-
-  onRemovePhoto(event: File, fieldName: string): void {
-    let currentIndex = this.imagesArrays[fieldName].indexOf(event);
-    this.imagesArrays[fieldName].splice(currentIndex, 1);
-    currentIndex = this.preparingObj[fieldName].indexOf(this.helperService.filterIt(this.preparingObj[fieldName], event.name)[0]);
-    this.preparingObj[fieldName].splice(currentIndex, 1);
+  pushFile() {
 
   }
 

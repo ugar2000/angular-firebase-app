@@ -50,12 +50,12 @@
     <mat-step [editable]="isEditable" [hasError]="this.hasErrorInImages" errorMessage="Фото обязательны">
       <ng-template matStepLabel>Фото обязательны</ng-template>
 
-      <ngx-dropzone (change)="onSelectPhoto($event)">
-        <ngx-dropzone-label>Drop image</ngx-dropzone-label>
-        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of fileList" [file]="f"
-                                    [removable]="true" (removed)="onRemovePhoto(f)">
-        </ngx-dropzone-image-preview>
-      </ngx-dropzone>
+<!--      <ngx-dropzone (change)="onSelectPhoto($event)">-->
+<!--        <ngx-dropzone-label>Drop image</ngx-dropzone-label>-->
+<!--        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of fileList" [file]="f"-->
+<!--                                    [removable]="true" (removed)="onRemovePhoto(f)">-->
+<!--        </ngx-dropzone-image-preview>-->
+<!--      </ngx-dropzone>-->
 
       <div>
         <button mat-button matStepperPrevious>Back</button>

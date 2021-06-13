@@ -47,15 +47,16 @@
           <mat-error *ngIf="globalFormGroup.controls[step.stepName].controls[field.name].hasError('required')">Поле обязательное</mat-error>
         </ng-template>
         <ng-template [ngIf]="field.fieldType === 'images'">
-          <ngx-dropzone (change)="onSelectPhoto($event, field.name)">
-            <ngx-dropzone-label>{{field.label}}</ngx-dropzone-label>
-            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesArrays[field.name]" [file]="f"
-                                        [removable]="true" (removed)="onRemovePhoto(f, field.name)">
-            </ngx-dropzone-image-preview>
-          </ngx-dropzone>
-          <input matInput formControlName="{{field.name}}" type="image">
+          <ngx-mat-file-input [multiple]="true"
+                              formControlName="{{field.name}}"
+                              placeholder="{{field.placeholder}}"
+                              accept="image/*"
+                              [(ngModel)]="imagesArrays[field.name]"></ngx-mat-file-input>
+          <mat-icon matSuffix>folder</mat-icon>
+          <div class="image-list-container" *ngIf="imagesArrays"><app-image (base64Ready)="push($event)" *ngFor="let image of imagesArrays[field.name]" [image]="image"></app-image></div>
         </ng-template>
       </mat-form-field>
+
       <button mat-button (click)="stepBack()" type="button"
               [disabled]="stepper.selectedIndex === 0">Назад</button>
       <button mat-button (click)="stepNext()" type="button"
