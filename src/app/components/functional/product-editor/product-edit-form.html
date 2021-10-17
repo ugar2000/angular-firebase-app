@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>Товар</h2>
+<mat-dialog-content class="mat-typography">
+  <app-step-form-buider (finishEvent)="finish($event)" [editingData]="editingData" [formObject]="templateObj" *ngIf="templateObj"></app-step-form-buider>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

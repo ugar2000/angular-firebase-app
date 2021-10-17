@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  backHost: 'http://localhost:3000',
   firebaseConfig: {
     apiKey: 'AIzaSyB4zBUKgJml7GIiLENHzsIi3AT0MHIcwL0',
     authDomain: 'angular-test-983c4.firebaseapp.com',

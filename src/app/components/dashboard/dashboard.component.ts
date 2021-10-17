@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
         public authService: AuthService, public router: Router
     ) {
       if (this.router.url === '/') {
-        this.router.navigate(['rate-list']);
+        this.router.navigate(['product-list']);
       }
     }
 

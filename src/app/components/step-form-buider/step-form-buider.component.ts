@@ -22,6 +22,7 @@ export class StepFormBuiderComponent implements OnInit {
 
   @ViewChild('stepper') private formStepper: MatStepper;
   @Input() formObject: FormObj;
+  @Input() editingData: object;
   @Output() finishEvent: EventEmitter<object> = new EventEmitter<object>();
   preparingObj: object = {};
   globalFormGroup: FormGroup = new FormGroup({});

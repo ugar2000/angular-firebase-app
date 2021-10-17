@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {CrudService} from './service/crud.service';
+import {CrudProductService} from './service/crud-product.service';
 import {HelperService} from './service/helper.service';
 import {AuthService} from './service/auth.service';
 import {AppRoutingModule} from './app-routing.module';
@@ -19,10 +19,10 @@ import {AngularFireStorageModule, BUCKET} from '@angular/fire/storage';
 // Components
 import {AppComponent} from './app.component';
 import {
-  RateOpenButtonComponent,
-  RateEditCreateFormDialogComponent
-} from './components/functional/rate-editor/rate-editor.component';
-import {RateListComponent} from './components/functional/rate-list/rate-list.component';
+  ProductOpenButtonComponent,
+  ProductEditCreateFormDialogComponent
+} from './components/functional/product-editor/product-editor.component';
+import {ProductListComponent} from './components/functional/product-list/product-list.component';
 import {SwiperConfigInterface, SWIPER_CONFIG, SwiperModule} from 'ngx-swiper-wrapper';
 import {AuthGuard} from './auth.guard';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
@@ -32,6 +32,7 @@ import {ForgotPasswordComponent} from './components/login/forgot-password/forgot
 import {VerifyEmailComponent} from './components/login/verify-email/verify-email.component';
 import {FileInputConfig, NGX_MAT_FILE_INPUT_CONFIG} from 'ngx-material-file-input';
 import { StepFormBuiderComponent } from './components/step-form-buider/step-form-buider.component';
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
 
@@ -40,8 +41,8 @@ const routes: Routes = [
   {
     path: '', component: DashboardComponent, canActivate: [AuthGuard], children: [
       {
-        path: 'rate-list',
-        component: RateListComponent
+        path: 'product-list',
+        component: ProductListComponent
       }
     ]
   },
@@ -63,9 +64,9 @@ const config: FileInputConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    RateOpenButtonComponent,
-    RateEditCreateFormDialogComponent,
-    RateListComponent,
+    ProductOpenButtonComponent,
+    ProductEditCreateFormDialogComponent,
+    ProductListComponent,
     DashboardComponent,
     SignInComponent,
     SignUpComponent,
@@ -83,9 +84,10 @@ const config: FileInputConfig = {
     AngularFirestoreModule,
     AngularFireStorageModule,
     AppMaterialModule,
-    SwiperModule
+    SwiperModule,
+    HttpClientModule,
   ],
-  providers: [CrudService, HelperService, AuthService, AuthGuard,
+  providers: [CrudProductService, HelperService, AuthService, AuthGuard,
     {provide: BUCKET, useValue: 'angular-test-983c4.appspot.com'},
     {provide: SWIPER_CONFIG, useValue: DEFAULT_SWIPER_CONFIG},
     {provide: NGX_MAT_FILE_INPUT_CONFIG, useValue: config},
