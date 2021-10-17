@@ -35,7 +35,6 @@ export class ProductEditCreateFormDialogComponent implements OnInit {
               private formService: FormService) {
 
     console.log(this.editingData);
-    const isRedact = !!this.editingData;
     this.formService.getProductFormTemplate().toPromise().then((template) => {
       this.templateObj = template;
     });
@@ -53,11 +52,19 @@ export class ProductEditCreateFormDialogComponent implements OnInit {
   }
 
   add(preparingItem): void {
-    this.crudService.createDocument(preparingItem);
+    this.crudService.createDocument(preparingItem).toPromise().then(resp => {
+      console.log(resp);
+    }).catch( error => {
+      console.error(error);
+    });
   }
 
   edit(preparingItem): void {
-    this.crudService.updateDocument(preparingItem);
+    this.crudService.updateDocument(preparingItem).toPromise().then(resp => {
+      console.log(resp);
+    }).catch( error => {
+      console.error(error);
+    });
   }
 
 }

@@ -22,7 +22,7 @@ export class StepFormBuiderComponent implements OnInit {
 
   @ViewChild('stepper') private formStepper: MatStepper;
   @Input() formObject: FormObj;
-  @Input() editingData: object;
+  @Input() editingData: object | null;
   @Output() finishEvent: EventEmitter<object> = new EventEmitter<object>();
   preparingObj: object = {};
   globalFormGroup: FormGroup = new FormGroup({});
@@ -37,12 +37,14 @@ export class StepFormBuiderComponent implements OnInit {
     this.formObject.steps.forEach(step => {
       const stepFormGroup: FormGroup = new FormGroup({});
       step.fields.forEach(field => {
-        this.preparingObj[field.name] = field.preparingValue;
         if (field.fieldType === 'images') {
-          const defaultValue = (<ImagesField> field).preparingValue.map(item => this.helperService.dataURLtoFile(item.name, item.src));
+          const defaultValue = this.editingData ?
+            (<Array<{name: string, src: string}>> this.editingData[field.name])
+              .map(item => this.helperService.dataURLtoFile(item.name, item.src)) : [];
           stepFormGroup.addControl(field.name, new FormControl(defaultValue, this.collectingValidators(field)));
         } else {
-          stepFormGroup.addControl(field.name, new FormControl(field.preparingValue, this.collectingValidators(field)));
+          stepFormGroup.addControl(field.name,
+              new FormControl(this.editingData ? this.editingData[field.name] : null, this.collectingValidators(field)));
         }
       });
       this.globalFormGroup.addControl(step.stepName, stepFormGroup);

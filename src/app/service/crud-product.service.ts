@@ -15,6 +15,7 @@ export class CrudProductService {
   }
 
   public createDocument(data: ProductData): Observable<any> {
+    console.log(data);
     return this.http.put(this.pathUrl + 'set-product', data);
   }
 
@@ -23,11 +24,13 @@ export class CrudProductService {
   }
 
   public updateDocument(data: Product): Observable<any> {
+    console.log(data);
     return this.http.put(this.pathUrl + 'set-product', data);
   }
 
 
   public deleteDocument(data: Product): Observable<any> {
+    console.log(data);
     return this.http.delete(`${this.pathUrl}delete-product/${data.id}`);
   }
 

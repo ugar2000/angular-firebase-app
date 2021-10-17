@@ -11,7 +11,7 @@
       [config]="config"
       [disabled]="false"
     >
-      <div *ngFor="let image of product.photos" class="swiper-slide">
+      <div *ngFor="let image of product.image" class="swiper-slide">
         <img src="{{image.src}}">
       </div>
     </swiper>
