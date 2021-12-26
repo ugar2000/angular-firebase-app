@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.item {
+  margin: 10px;
+  width: 200px;
+}

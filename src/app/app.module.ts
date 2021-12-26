@@ -33,6 +33,11 @@ import {VerifyEmailComponent} from './components/login/verify-email/verify-email
 import {FileInputConfig, NGX_MAT_FILE_INPUT_CONFIG} from 'ngx-material-file-input';
 import { StepFormBuiderComponent } from './components/step-form-buider/step-form-buider.component';
 import {HttpClientModule} from "@angular/common/http";
+import {TablePageComponent} from "./components/table-page/table-page.component";
+import {AgGridModule} from "ag-grid-angular";
+import { BasketComponent } from './components/functional/basket/basket.component';
+import { BasketItemComponent } from './components/functional/basket-item/basket-item.component';
+import {DBConfig, NgxIndexedDBModule} from "ngx-indexed-db";
 
 const routes: Routes = [
 
@@ -43,6 +48,14 @@ const routes: Routes = [
       {
         path: 'product-list',
         component: ProductListComponent
+      },
+      {
+        path: 'table',
+        component: TablePageComponent,
+      },
+      {
+        path: 'basket',
+        component: BasketComponent
       }
     ]
   },
@@ -51,6 +64,19 @@ const routes: Routes = [
   {path: '**', redirectTo: '', pathMatch: 'full'}
 
 ];
+
+const dbConfig: DBConfig  = {
+  name: 'BasketDB',
+  version: 1,
+  objectStoresMeta: [{
+    store: 'items',
+    storeConfig: { keyPath: 'id', autoIncrement: true },
+    storeSchema: [
+      { name: 'name', keypath: 'name', options: { unique: true } },
+      { name: 'price', keypath: 'price', options: { unique: false } }
+    ]
+  }]
+};
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -72,7 +98,10 @@ const config: FileInputConfig = {
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    StepFormBuiderComponent
+    StepFormBuiderComponent,
+    TablePageComponent,
+    BasketComponent,
+    BasketItemComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +110,8 @@ const config: FileInputConfig = {
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     RouterModule.forRoot(routes),
+    AgGridModule.withComponents(),
+    NgxIndexedDBModule.forRoot(dbConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
     AppMaterialModule,

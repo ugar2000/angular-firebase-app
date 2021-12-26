@@ -5,6 +5,7 @@ import {SwiperOptions} from 'swiper';
 import {ProductEditCreateFormDialogComponent} from '../product-editor/product-editor.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Product} from '../../../models/product.model';
+import {NgxIndexedDBService} from "ngx-indexed-db";
 
 
 @Component({
@@ -26,7 +27,10 @@ export class ProductListComponent implements OnInit {
     pagination: false
   };
 
-  constructor(public crudService: CrudProductService, public helperService: HelperService, public dialog: MatDialog) {
+  constructor(public crudService: CrudProductService,
+              public helperService: HelperService,
+              public dialog: MatDialog,
+              private dbService: NgxIndexedDBService) {
   }
 
   ngOnInit(): void {
@@ -54,6 +58,12 @@ export class ProductListComponent implements OnInit {
     this.crudService.deleteDocument(rate).toPromise().then((resp) => {
       console.log(resp);
     }).catch(error => {console.error(error); });
+  }
+
+  addToBasket(product): void {
+    this.dbService.add('items', {name: product.name, price: product.price}).toPromise().then((resp) => {
+      console.log(resp);
+    })
   }
 
 }

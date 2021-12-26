@@ -18,11 +18,15 @@
         <p>Email: <strong>{{user.email}}</strong></p>
         <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
         <hr>
-        <a *ngIf="this.router.url !== '/product-list'; else createHeroButton" href="" mat-button routerLink="hero-list">Hero
-          page</a>
+        <a *ngIf="this.router.url !== '/product-list'; else createHeroButton" href="" mat-button routerLink="product-list">Products cards page</a>
         <ng-template #createHeroButton>
           <app-create-product></app-create-product>
         </ng-template>
+        <br>
+        <hr>
+        <br>
+        <button mat-button routerLink="basket">Go to basket</button>
+        <button mat-button routerLink="table">Go to table mode</button>
         <br>
         <hr>
         <a class="nav-link" mat-button (click)="authService.SignOut()">Log out</a>
